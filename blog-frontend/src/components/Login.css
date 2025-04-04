@@ -1,0 +1,29 @@
+
+
+.container{
+    display: flex;
+    background-color: bisque;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.box{
+    background-color: rgb(70, 175, 255);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    border: 4px black solid;
+    border-radius: 10px;
+    text-align: center;
+    height: 300px;
+    justify-content: center;
+
+}
+input{
+   margin: 10px;
+}
+.forgot{
+    color: red;
+    font-size: small;
+}
