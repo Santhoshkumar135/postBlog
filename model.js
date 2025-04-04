@@ -27,6 +27,6 @@ const anotherSchema=new mongoose.Schema({
         type:Number
     }
 })
-const user=mongoose.model("User",userSchema);
-const Post=mongoose.model("post",anotherSchema);
-module.exports={user,Post};
+const User=mongoose.model("User",userSchema);
+const Post=mongoose.model("Post",anotherSchema);
+module.exports={User,Post};
