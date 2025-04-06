@@ -6,10 +6,12 @@ function PostList({posts}){
         return <p>no posts available</p>
     }
     return (
-        <div className='container'><ul>
+        <div className='container2'><ul>
         {
             posts.map((post)=>(
-                <li key={post.id}><p><span>title:</span>{post.title}</p> <span>post:</span>{post.content}</li>
+                <li key={post.id}><p className='tit'><span>TITLE:</span>{post.title} </p>
+                <p className='tit'><span>POST:</span>{post.content}</p>
+                 </li>
             ))
             
         }

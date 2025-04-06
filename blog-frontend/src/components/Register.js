@@ -32,15 +32,15 @@ function Register(){
         <form onSubmit={fetchregdata}> 
             <div>
                 <p>Username</p>
-                <input type="text" id="name" name="name" onChange={handleregChange} value={regdata.name}/>
+                <input type="text" required id="name" name="name" onChange={handleregChange} value={regdata.name}/>
             </div>
             <div>
                 <p>Email</p>
-                <input type="text" id="email" name="email" onChange={handleregChange} value={regdata.email}/>
+                <input type="text" required id="email" name="email" onChange={handleregChange} value={regdata.email}/>
             </div>
             <div>
                 <p>password</p>
-                <input type="password" id="password" name="password" onChange={handleregChange} value={regdata.password}/>
+                <input type="password" required id="password" name="password" onChange={handleregChange} value={regdata.password}/>
             </div>
             <div><button onSubmit={fetchregdata}>Submit</button></div>
             </form>

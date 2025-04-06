@@ -21,6 +21,7 @@ function PostForm({onpostadded}){
         catch(err){
             console.log("error",err);
         }
+        onpostadded();
         navigate("/visitpost")
 
     }
@@ -31,13 +32,13 @@ function PostForm({onpostadded}){
         <form onSubmit={handleSubmit}>
         <div className="blog"><p>Post The Blog</p></div>
             <label for="title">Name the title</label>
-            <input type="text" id="title" name="title" value={formdata.title} onChange={handleChange}/>
+            <input type="text" id="title" name="title" required value={formdata.title} onChange={handleChange}/>
             <br/>
             <label for="content">Enter the Content</label>
-            <textarea  id="content" name="content" value={formdata.content} onChange={handleChange}/>
+            <textarea  id="content" required name="content" value={formdata.content} onChange={handleChange}/>
             <br/>
             <label for="author">Enter author id</label>
-            <input type="number" id="author" name="author" value={formdata.author} onChange={handleChange}/>
+            <input type="number" required id="author" name="author" value={formdata.author} onChange={handleChange}/>
             <button type="submit">submit</button>
         </form>
         <div>

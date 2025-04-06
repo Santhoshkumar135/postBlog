@@ -12,7 +12,18 @@ app.post('/api/users/register',async (req,res)=>{
     
         const name=req.body.name;
         const email=req.body.email;
+        
         const password=await bcrypt.hash(req.body.password,13);
+        if (!name || !email || !password){
+            return res.status(400).json({msg:"missing field"})
+        }
+        const alreadyuser=await User.findOne({"email":email})
+        
+        if (alreadyuser){
+            
+            return res.status(400).json({msg:"email already exits"})
+        }
+        
         console.log(password)
         try{
         const result= await User.create({
