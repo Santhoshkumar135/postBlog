@@ -3,11 +3,39 @@ const {User,Post}=require('./model.js')
 const mongoose=require('mongoose')
 const cors = require("cors");
 const bcrypt=require("bcrypt")
+const jwt=require("jsonwebtoken")
+const cookie=require("cookie-parser");
+const cookieParser = require('cookie-parser');
 mongoose.connect('mongodb://localhost:27017/blog').then(()=>console.log('connected')).catch(()=>console.log('error'))
 
 const app=express();
+app.use(cookieParser())
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+    origin:'http://localhost:3001',
+    credentials:true
+}))
+const secret="Santhosh"
+
+
+const authenticate=(req,res,next)=>{
+    const token = req.cookies.token;
+
+    if(!token){
+        return res.status(401).json({msg:"login first"})    
+}
+
+jwt.verify(token,secret,(err,email)=>{
+    if (err){
+        return res.status(401).json({msg:"login failed"})
+    }
+    req.email=email.email
+    next();
+
+})
+
+
+}
 app.post('/api/users/register',async (req,res)=>{
     
         const name=req.body.name;
@@ -29,6 +57,14 @@ app.post('/api/users/register',async (req,res)=>{
         const result= await User.create({
             name,email,password
         })
+        const token=jwt.sign({"email":email},secret,{expiresIn:'1hr'})
+        res.cookie("token",token,{ httpOnly: true,
+            secure: false, // true if using HTTPS
+            sameSite: 'Lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+          
+
+        });
         return res.status(200).json({msg:'success'})
     }catch(err){
         return res.status(500).json({ msg: 'Error registering user', error: err.message });
@@ -50,7 +86,16 @@ app.post('/api/users/login',async (req,res)=>{
     console.log(user)
     const valid=await bcrypt.compare(password,user.password)
     if (valid){
+        
         console.log("sucessfully logined")
+        const token=jwt.sign({"email":email},secret,{expiresIn:'1hr'})
+        res.cookie("token",token,{ httpOnly: true,
+            secure: false, // true if using HTTPS
+            sameSite: 'Lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+          
+
+        });
         return res.status(200).json({success:true,msg:'success'})
     }
     else{
@@ -62,7 +107,7 @@ app.post('/api/users/login',async (req,res)=>{
     }
 
 })
-app.get("/api/posts", async (req, res) => {
+app.get("/api/posts",authenticate, async (req, res) => {
     try{
     const posts=await Post.find()
     res.json(posts);
@@ -72,7 +117,7 @@ app.get("/api/posts", async (req, res) => {
     }
     
 });
-app.post('/api/posts',async (req,res)=>{
+app.post('/api/posts',authenticate,async (req,res)=>{
     try{
     const {title,content,author}=req.body;
     console.log(req.body)
@@ -90,4 +135,5 @@ app.post('/api/posts',async (req,res)=>{
     }
 
 })
+
 app.listen(3000,()=>console.log('server started'))

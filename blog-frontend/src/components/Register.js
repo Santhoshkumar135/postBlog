@@ -8,7 +8,7 @@ function Register(){
     const fetchregdata= async (e)=>{
         e.preventDefault()
         try{
-            const resp=await axios.post("http://localhost:3000/api/users/register",regdata);
+            const resp=await axios.post("http://localhost:3000/api/users/register",regdata,{withCredentials:true});
             console.log(resp)
             navigate("/postform")
 

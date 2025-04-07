@@ -9,7 +9,7 @@ function Login(){
         e.preventDefault()
         try{
             console.log(logdata)
-            const logres=await axios.post("http://localhost:3000/api/users/login",logdata)
+            const logres=await axios.post("http://localhost:3000/api/users/login",logdata,{withCredentials:true})
             console.log(logres)
             if (logres.data.success){
                 navigate("/postform")

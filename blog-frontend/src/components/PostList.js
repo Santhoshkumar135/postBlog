@@ -1,7 +1,11 @@
 import React,{useEffect,useState} from 'react'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import "./PostList.css"
-function PostList({posts}){
+function PostList(){
+    const location=useLocation();
+    
+    const posts=location.state;
     if (!posts.length){
         return <p>no posts available</p>
     }

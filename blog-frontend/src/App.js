@@ -8,34 +8,7 @@ import axios from 'axios';
 import Login from './components/Login';
 import { useState,useEffect } from 'react';
 function App() {
-  const [posts,setposts]=useState([]);
-  const [loading,setloading]=useState(true)
-    const fetchpost=async ()=>{
-      try{
-          const response=await axios.get("http://localhost:3000/api/posts")
-          
-            setloading(false)
-            setposts(response.data)
-            //console.log(response.data)
-      }
-      catch(err){
-            setloading(false)
-            console.log("error",err)}
-    }
-    //console.log("hi hello",posts)
-    
-    useEffect(()=>{
-      const fetchData = async () => {
-        await fetchpost();
-      };
-      fetchData();
-      },[])
-    const handlepost=()=>{
-      fetchpost();
-    }
-    if (loading){
-        return <p>Loading...</p>
-    }
+  
   return (
     <div>
     {/*<PostList posts={posts}/>
@@ -44,8 +17,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Register/>}/>
-        <Route path="/postform" element={<PostForm onpostadded={handlepost}/>}/>
-        <Route path="/visitpost" element={<PostList posts={posts}/>}/>
+        <Route path="/postform" element={<PostForm/>}/>
+        <Route path="/visitpost" element={<PostList/>}/>
         <Route path='/login' element={<Login/>}/>
         
 

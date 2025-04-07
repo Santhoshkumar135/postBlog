@@ -25,6 +25,7 @@ const anotherSchema=new mongoose.Schema({
     },
     author:{
         type:Number
+        
     }
 })
 const User=mongoose.model("User",userSchema);

@@ -11,9 +11,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /*{justify-content: center;}*/
     height: 100vh;
-    background-color: rgb(20, 214, 217);
+    background-color: rgb(3, 136, 141);
     overflow-x: hidden;
     
     margin: 0px;
@@ -48,5 +48,5 @@ li{
     display: block;
 }
 li:first-child {
-    margin-top: 100px; /* pushes the first item down a bit */
+    margin-top: 0px; /* pushes the first item down a bit */
 }
