@@ -138,4 +138,8 @@ app.post('/api/posts',authenticate,async (req,res)=>{
 
 })
 
+app.get("/api/me",authenticate,(req,res)=>{
+    return res.json({success:true})
+})
+
 app.listen(3000,()=>console.log('server started'))

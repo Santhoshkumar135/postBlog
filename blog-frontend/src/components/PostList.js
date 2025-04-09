@@ -3,9 +3,24 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import "./PostList.css"
 function PostList(){
-    const location=useLocation();
     
-    const posts=location.state;
+    const [posts,setposts]=useState([]);
+    
+    useEffect(()=>{
+        const fetchpost=async ()=>{
+            try{
+            const resp=await axios.get("http://localhost:3000/api/posts", {
+                withCredentials: true
+              });
+              setposts(resp.data)
+            }
+            catch(err){
+                console.log("error",err)
+            }
+            
+        }
+        fetchpost();
+    },[])
     if (!posts.length){
         return <p>no posts available</p>
     }

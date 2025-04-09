@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./PostForm.css"
 function PostForm(){
-    const [posts,setposts]=useState([]);
+   
   const [error,seterror]=useState(false);
   const [loading,setloading]=useState(true)
   const navigate=useNavigate()
@@ -23,10 +23,8 @@ function PostForm(){
         e.preventDefault()
         try{
             const response=await axios.post("http://localhost:3000/api/posts",formdata,{withCredentials:true});
-            const resp=await axios.get("http://localhost:3000/api/posts", {
-              withCredentials: true
-            });
-            navigate("/visitpost",{state:resp.data})
+            
+            navigate("/visitpost")
             //console.log("formdata",response);
         }
         catch(err){
