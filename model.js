@@ -24,7 +24,9 @@ const anotherSchema=new mongoose.Schema({
         type:String
     },
     author:{
-        type:Number
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
         
     }
 })

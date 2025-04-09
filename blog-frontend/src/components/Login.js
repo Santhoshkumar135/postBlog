@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import axios from "axios";
 import './Login.css'
 import { useNavigate } from "react-router-dom";
-function Login(){
+function Login({onLogin}){
     const navigate=useNavigate();
     const [logdata,setlogdata]=useState({email:"",password:""})
     const fetchlogdata=async(e)=>{
@@ -12,6 +12,7 @@ function Login(){
             const logres=await axios.post("http://localhost:3000/api/users/login",logdata,{withCredentials:true})
             console.log(logres)
             if (logres.data.success){
+                onLogin();
                 navigate("/postform")
             }
 

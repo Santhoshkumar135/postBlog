@@ -7,7 +7,7 @@ function PostForm(){
   const [error,seterror]=useState(false);
   const [loading,setloading]=useState(true)
   const navigate=useNavigate()
-  const [formdata,setformdata]=useState({title:"",content:"",author:""})
+  const [formdata,setformdata]=useState({title:"",content:""})
     
    
     
@@ -17,7 +17,8 @@ function PostForm(){
         
 
     }
-
+    
+      
     const handleSubmit= async (e)=>{
         e.preventDefault()
         try{
@@ -44,14 +45,13 @@ function PostForm(){
     <div className="box">
         <form onSubmit={handleSubmit}>
         <div className="blog"><p>Post The Blog</p></div>
-            <label for="title">Name the title</label>
+            <label htmlFor="title">Name the title</label>
             <input type="text" id="title" name="title" required value={formdata.title} onChange={handleChange}/>
             <br/>
-            <label for="content">Enter the Content</label>
+            <label htmlFor="content">Enter the Content</label>
             <textarea  id="content" required name="content" value={formdata.content} onChange={handleChange}/>
             <br/>
-            <label for="author">Enter author id</label>
-            <input type="number" required id="author" name="author" value={formdata.author} onChange={handleChange}/>
+            
             <button type="submit">submit</button>
         </form>
         <div>

@@ -13,7 +13,7 @@ function PostList(){
         <div className='container2'><ul>
         {
             posts.map((post)=>(
-                <li key={post.id}><p className='tit'><span>TITLE:</span>{post.title} </p>
+                <li key={post._id}><p className='tit'><span>TITLE:</span>{post.title} </p>
                 <p className='tit'><span>POST:</span>{post.content}</p>
                  </li>
             ))

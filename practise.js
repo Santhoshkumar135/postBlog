@@ -25,11 +25,11 @@ const authenticate=(req,res,next)=>{
         return res.status(401).json({msg:"login first"})    
 }
 
-jwt.verify(token,secret,(err,email)=>{
+jwt.verify(token,secret,(err,user)=>{
     if (err){
         return res.status(401).json({msg:"login failed"})
     }
-    req.email=email.email
+    req.user=user
     next();
 
 })
@@ -57,7 +57,7 @@ app.post('/api/users/register',async (req,res)=>{
         const result= await User.create({
             name,email,password
         })
-        const token=jwt.sign({"email":email},secret,{expiresIn:'1hr'})
+        const token=jwt.sign({"email":email,"_id":result._id},secret,{expiresIn:'1hr'})
         res.cookie("token",token,{ httpOnly: true,
             secure: false, // true if using HTTPS
             sameSite: 'Lax',
@@ -88,7 +88,7 @@ app.post('/api/users/login',async (req,res)=>{
     if (valid){
         
         console.log("sucessfully logined")
-        const token=jwt.sign({"email":email},secret,{expiresIn:'1hr'})
+        const token=jwt.sign({"email":email,"_id":user._id},secret,{expiresIn:'1hr'})
         res.cookie("token",token,{ httpOnly: true,
             secure: false, // true if using HTTPS
             sameSite: 'Lax',
@@ -119,12 +119,14 @@ app.get("/api/posts",authenticate, async (req, res) => {
 });
 app.post('/api/posts',authenticate,async (req,res)=>{
     try{
-    const {title,content,author}=req.body;
+    const {title,content}=req.body;
+    const author=req.user._id
+    console.log(req.user)
     console.log(req.body)
     console.log(title,content,author)
     if(title && content && author){
     const result=await Post.create({title,content,author})
-    console.log(result)
+    console.log("hi the result",result)
     return res.status(200).json({msg:'success'})}
     else{
         return res.json({msg:"unsucessful"})

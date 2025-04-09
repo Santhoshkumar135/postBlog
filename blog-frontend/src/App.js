@@ -6,25 +6,47 @@ import Register from './components/Register';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import axios from 'axios';
 import Login from './components/Login';
+import { useNavigate } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 function App() {
+  const navigate=useNavigate();
+  const [islogedin,setlogedin]=useState(false)
+  const handlelogedin=()=>{
+    setlogedin(true)
+  }
+  const handlelogout=()=>{
+    setlogedin(false)
+    navigate('/login')
+
+  }
   
   return (
     <div>
+    {console.log(islogedin)}
+    {islogedin && <div>
+    <button onClick={handlelogout}>Logout</button>
+
+</div>}
+    
     {/*<PostList posts={posts}/>
     <PostForm onpostadded={handlepost}/>*/}
     {/*<Register/>*/}
-    <Router>
+    
       <Routes>
-        <Route path="/" element={<Register/>}/>
-        <Route path="/postform" element={<PostForm/>}/>
-        <Route path="/visitpost" element={<PostList/>}/>
-        <Route path='/login' element={<Login/>}/>
+        <Route path="/" element={<Register />}/>
+        <Route path='/login' element={<Login onLogin={handlelogedin} />}/>
+        
+        
+        {islogedin?<Route path="/postform" element={<PostForm/>}/>:<Route path="/postform" element={<Login onLogin={handlelogedin} />}/>}
+        {islogedin?<Route path="/visitpost" element={<PostList/>}/>:<Route path='/visitpost' element={<Login onLogin={handlelogedin}/>}/>}
+        
+
+        
         
 
         
       </Routes>
-    </Router>
+    
     
     
     </div>
