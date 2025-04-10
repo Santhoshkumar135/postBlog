@@ -37,9 +37,17 @@ function App() {
     }
     checkAuth();
   },[]);
-  const handlelogout=()=>{
-    setlogedin(false)
+  const handlelogout= async ()=>{
+    try{
+      await axios.post("http://localhost:3000/api/logout",{},{withCredentials:true})
+      setlogedin(false)
     navigate('/login')
+
+    }
+    catch(err){
+      console.log("error")
+      return <p>ther is an error</p>
+    }
 
   }
   if(loading){
@@ -49,7 +57,7 @@ function App() {
   return (
     <div>
     {console.log(islogedin)}
-    {islogedin && <div>
+    {islogedin && <div className='logout'>
     <button onClick={handlelogout}>Logout</button>
 
 </div>}

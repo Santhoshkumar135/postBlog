@@ -1,3 +1,10 @@
 body{
   background-color: rgb(0, 217, 255);
 }
+button{
+  display: inline-block;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  background-color: rgb(245, 167, 251);
+  cursor: pointer;
+}

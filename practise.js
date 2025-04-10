@@ -141,5 +141,10 @@ app.post('/api/posts',authenticate,async (req,res)=>{
 app.get("/api/me",authenticate,(req,res)=>{
     return res.json({success:true})
 })
+app.post("/api/logout",authenticate,(req,res)=>{
+    res.clearCookie(req.cookies.token,{ httpOnly: true,
+        secure: false, // true if using HTTPS
+        sameSite: 'Lax'})
+})
 
 app.listen(3000,()=>console.log('server started'))
