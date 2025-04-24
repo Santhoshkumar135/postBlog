@@ -6,7 +6,10 @@ const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 const cookie=require("cookie-parser");
 const cookieParser = require('cookie-parser');
-mongoose.connect('mongodb://localhost:27017/blog').then(()=>console.log('connected')).catch(()=>console.log('error'))
+require(dotenv).config()
+const mongodburl=process.env.MONGO_URI
+const jwtkey=process.env.JWT_SECRET
+mongoose.connect(mongodburl).then(()=>console.log('connected')).catch(()=>console.log('error'))
 
 const app=express();
 app.use(cookieParser())
@@ -15,7 +18,7 @@ app.use(cors({
     origin:'http://localhost:3001',
     credentials:true
 }))
-const secret="Santhosh"
+const secret=jwtkey
 
 
 const authenticate=(req,res,next)=>{
@@ -57,7 +60,7 @@ app.post('/api/users/register',async (req,res)=>{
         const result= await User.create({
             name,email,password
         })
-        const token=jwt.sign({"email":email,"_id":result._id},secret,{expiresIn:'1hr'})
+        const token=jwt.sign({"email":email,"_id":result._id,"name":name},secret,{expiresIn:'1hr'})
         res.cookie("token",token,{ httpOnly: true,
             secure: false, // true if using HTTPS
             sameSite: 'Lax',
@@ -88,7 +91,7 @@ app.post('/api/users/login',async (req,res)=>{
     if (valid){
         
         console.log("sucessfully logined")
-        const token=jwt.sign({"email":email,"_id":user._id},secret,{expiresIn:'1hr'})
+        const token=jwt.sign({"email":email,"_id":user._id,"name":user.name},secret,{expiresIn:'1hr'})
         res.cookie("token",token,{ httpOnly: true,
             secure: false, // true if using HTTPS
             sameSite: 'Lax',
@@ -109,7 +112,7 @@ app.post('/api/users/login',async (req,res)=>{
 })
 app.get("/api/posts",authenticate, async (req, res) => {
     try{
-    const posts=await Post.find()
+        const posts = await Post.find().populate('author', 'name _id');
     res.json(posts);
     }
     catch(err){
@@ -126,6 +129,8 @@ app.post('/api/posts',authenticate,async (req,res)=>{
     console.log(title,content,author)
     if(title && content && author){
     const result=await Post.create({title,content,author})
+    
+
     console.log("hi the result",result)
     return res.status(200).json({msg:'success'})}
     else{
@@ -139,12 +144,25 @@ app.post('/api/posts',authenticate,async (req,res)=>{
 })
 
 app.get("/api/me",authenticate,(req,res)=>{
-    return res.json({success:true})
+    return res.json({success:true,user:req.user.name})
 })
 app.post("/api/logout",authenticate,(req,res)=>{
-    res.clearCookie(req.cookies.token,{ httpOnly: true,
+    console.log("hi o",req.cookies)
+    res.clearCookie("token",{ 
+        path:"/",
+        httpOnly: true,
         secure: false, // true if using HTTPS
         sameSite: 'Lax'})
+    console.log("fello",req.cookies)
+    return res.status(200).json({ success: true, msg: "Logged out successfully" });
+})
+app.post("/api/posts/delete",authenticate,async(req,res)=>{
+    console.log("posts",req.body.postauthorid,req.user._id)
+    if(req.body.postauthorid===req.user._id){
+        await Post.deleteOne({_id:req.body.postid})
+        return res.status(200).json({success:true})
+    }
+    return res.status(200).json({success:false})
 })
 
 app.listen(3000,()=>console.log('server started'))

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Login({onLogin}){
     const navigate=useNavigate();
     const [logdata,setlogdata]=useState({email:"",password:""})
+    const [err,seterr]=useState("")
     const fetchlogdata=async(e)=>{
         e.preventDefault()
         try{
@@ -17,9 +18,12 @@ function Login({onLogin}){
             }
 
 
+
         }
         catch(err){
+            seterr("please enter correct email or password")
             console.log("error",err)
+             
         }
     }
     const handlelogdata=(e)=>{
@@ -36,14 +40,15 @@ function Login({onLogin}){
                 <div>Login</div>
                     <div>
                         <label htmlFor="email">Email</label>
-                        <input type="text" id="email" name="email" placeholder="Enter your Email" value={logdata.email} onChange={handlelogdata} />
+                        <input type="text" required id="email" name="email" placeholder="Enter your Email" value={logdata.email} onChange={handlelogdata} />
                     </div>
                     <div>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter Your password" onChange={handlelogdata} value={logdata.password}/>
+                        <input type="password" required id="password" name="password" placeholder="Enter Your password" onChange={handlelogdata} value={logdata.password}/>
                     </div>
                     <div className="forgot"><p>forgot password?</p></div>
-                    <button type="submit">submit</button>
+                    <div><button type="submit">submit</button></div>
+                    <div><p style={{color:'red',fontSize:'15px',textDecoration:'underline'}}>{err}</p></div>
                 </form>
             </div>
         </div>

@@ -1,5 +1,5 @@
 body{
-  background-color: rgb(0, 217, 255);
+  background-color: rgb(7, 48, 55);
 }
 button{
   display: inline-block;
@@ -7,4 +7,16 @@ button{
   font-weight: bold;
   background-color: rgb(245, 167, 251);
   cursor: pointer;
+}
+.logout{
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* optional: vertical centering */
+  padding: 0 1rem;
+  position:absolute;
+  top: 1rem;
+  right: 1rem;
+  left:1rem;
+  
+  
 }

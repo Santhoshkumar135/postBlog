@@ -12,16 +12,27 @@ function App() {
   const navigate=useNavigate();
   const [islogedin,setlogedin]=useState(false)
   const [loading,setloading]=useState(true)
-  const handlelogedin=()=>{
+  const [bloger,setbloger]=useState("")
+  const handlelogedin=async()=>{
+    try{
+      const l=await axios.get("http://localhost:3000/api/me",{withCredentials:true})
+      console.log("fucker",l.data,l.data.user)
+    setbloger(l.data.user)
+    }
+    catch(err){
+      console.log("error",err)
+    }
     setlogedin(true)
   }
   useEffect(()=>{
     const checkAuth=async ()=>{
       try{
       const logincheck=await axios.get("http://localhost:3000/api/me",{withCredentials:true})
-      console.log(logincheck)
+      console.log("fucker",logincheck)
       if(logincheck.data.success){
         setlogedin(true)
+        setbloger(logincheck.data.user)
+        
       }
       else{
         setlogedin(false)
@@ -39,7 +50,7 @@ function App() {
   },[]);
   const handlelogout= async ()=>{
     try{
-      await axios.post("http://localhost:3000/api/logout",{},{withCredentials:true})
+      await axios.post("http://localhost:3000/api/logout",{},{withCredentials:true}) 
       setlogedin(false)
     navigate('/login')
 
@@ -59,6 +70,8 @@ function App() {
     {console.log(islogedin)}
     {islogedin && <div className='logout'>
     <button onClick={handlelogout}>Logout</button>
+    <p>Welcome {bloger}</p>
+    
 
 </div>}
     

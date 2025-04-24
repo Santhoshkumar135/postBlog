@@ -25,6 +25,7 @@ span{
     color: brown;
 }
 ul{
+    padding-top: 40px;
     list-style-type: none;
     width: 100%;
     align-items: center;
@@ -39,6 +40,7 @@ li{
     background-color: rgb(5, 196, 225);
     
     padding: 10px 0;
+    
     margin: 20px auto; 
     box-sizing: border-box;
     align-items: center;
@@ -49,4 +51,9 @@ li{
 }
 li:first-child {
     margin-top: 0px; /* pushes the first item down a bit */
+}
+.pos{
+    padding: 50px;
+    padding-left: 550px;
+    padding-top: 200px;
 }
